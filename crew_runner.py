@@ -12,19 +12,29 @@ from report_generator import generate_report, show_report
 #os.environ["LITELLM_LOG"] = "ERROR"
 #os.environ["LITELLM_DISABLE_LOGGING"] = "true"
 
-
 if "GROQ_API_KEY" not in os.environ:
     if os.path.exists("api_key.txt"):
         with open("api_key.txt") as f:
             os.environ["GROQ_API_KEY"] = f.read().strip()
 
+            
+def read_github_username():
+    try:
+        with open("github_user.txt", "r") as f:
+            return f.read().strip()
+    except FileNotFoundError:
+        return None
+
+
 def run_nightly_process():
     print("--- Starting End-of-Day AI Analysis ---")
 
     # 1. Collect all activity from your laptop
+    github_username = read_github_username()
+    
     activity = {
         "files": get_file_activity(),
-        "git": get_git_activity(),
+        "git": get_git_activity(github_username) if github_username else ["GitHub username not configured"],
         "terminal": get_terminal_activity(),
         "vscode": get_vscode_activity()
     }

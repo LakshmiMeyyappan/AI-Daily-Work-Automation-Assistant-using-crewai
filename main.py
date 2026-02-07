@@ -7,9 +7,6 @@ from datetime import datetime
 from crew_runner import run_nightly_process
 from morning_runner import run_morning
 import os
-os.environ["LITELLM_LOG"] = "ERROR"
-os.environ["LITELLM_DISABLE_LOGGING"] = "true"
-
 
 
 def setup_config():

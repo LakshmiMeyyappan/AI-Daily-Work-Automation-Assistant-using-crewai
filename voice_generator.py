@@ -9,13 +9,23 @@ llm = LLM(
     api_key=os.getenv("GROQ_API_KEY")
 )
 
+def get_username():
+    try:
+        with open("github_user.txt", "r") as f:
+            return f.read().strip()
+    except FileNotFoundError:
+        return "there"
+
 def morning_briefing(report_content):
+    username = get_username()
+
     prompt = f"""
-    You are a professional assistant. Below is a list of tasks for today.
-    Please provide:
-    1. A short, warm 'Good morning'.
-    2. A quick summary of these specific tasks.
-    3. One short motivational quote.
+     You are a friendly and professional AI assistant.
+
+    Create a short morning voice briefing with:
+    1. A warm greeting using this name: {username}
+    2. A simple, friendly summary of today's tasks
+    3. One short positive quote WITHOUT mentioning the author
     
     Tasks to summarize: {report_content}
     
